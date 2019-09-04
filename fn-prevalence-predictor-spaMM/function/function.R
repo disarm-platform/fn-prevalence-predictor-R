@@ -79,5 +79,5 @@ function(params) {
   for(i in names(posterior_metrics)){
     point_data[[i]] <- posterior_metrics[[i]]
   }
-  return(point_data)
+  return(geojson_list(point_data))
 }
