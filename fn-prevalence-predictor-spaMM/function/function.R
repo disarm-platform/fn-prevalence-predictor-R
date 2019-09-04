@@ -1,5 +1,5 @@
-library(spaMM)
-library(sf)
+suppressPackageStartupMessages(library(spaMM))
+suppressPackageStartupMessages(library(sf))
 library(geojsonio)
 library(httr)
 

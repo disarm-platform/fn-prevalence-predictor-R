@@ -8,6 +8,7 @@ function(spaMM_mod,
                    type = "(ranef|response)", 
                    nsim = n_sims,
                    newdata = new_data,
+                   verbose = FALSE,
                    sizes = rep(100, nrow(new_data)))
   sims <- sims/100
   # 
