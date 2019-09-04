@@ -29,3 +29,4 @@ A nested JSON object containing:
 - `prevalence_bci_width` - difference between upper 97.5% and lower 2.25% quantiles
 - `exceedance_probability` - Only exists if `exceedance_threshold` provided
 - `exceedance_uncertainty` - Only exists if `exceedance_threshold` provided
+- `entropy` - Only exists if `exceedance_threshold` provided. Calculated as -p * log(p) - (1-p) * log (1-p) where p is `exceedance_probability`
