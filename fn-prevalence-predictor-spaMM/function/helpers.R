@@ -27,12 +27,16 @@ function(spaMM_mod,
     
     # Calc 'exceedance_uncertainty' as normalized around 0.5
     exceedance_uncertainty <- 0.5 - abs(exceedance_probability - 0.5)
+    entropy <- -exceedance_probability * log(exceedance_probability) - 
+                (1-exceedance_probability) * log (1-exceedance_probability)
+    entropy[is.na(entropy)] <- 0
     
     # return
     return(data.frame(prevalence_prediction = prevalence_prediction,
                       prevalence_bci_width = prevalence_bci_width,
                       exceedance_probability = exceedance_probability,
-                      exceedance_uncertainty = exceedance_uncertainty))
+                      exceedance_uncertainty = exceedance_uncertainty,
+                      entropy = entropy))
   }else{
     return(data.frame(prevalence_prediction = prevalence_prediction,
                       prevalence_bci_width = prevalence_bci_width))
