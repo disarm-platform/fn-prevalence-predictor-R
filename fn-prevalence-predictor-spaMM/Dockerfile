@@ -22,3 +22,7 @@ EXPOSE 8080
 
 HEALTHCHECK --interval=3s CMD [ -e /tmp/.lock ] || exit 1
 CMD [ "fwatchdog" ]
+
+ENV write_timeout=600
+ENV read_timeout=600
+ENV exec_timeout=600
