@@ -2,10 +2,10 @@ provider:
   name: faas
   gateway: https://faas.srv.disarm.io
 functions:
-  fn-prevalence-predictor-spaMM:
+  fn-prevalence-predictor-spamm:
     lang: dockerfile
-    handler: ./fn-prevalence-predictor-spaMM
-    image: disarm/fn-prevalence-predictor-spaMM:0.0.1
+    handler: ./fn-prevalence-predictor-spamm
+    image: disarm/fn-prevalence-predictor-spamm:0.0.1
     environment:
       exec_timeout: 600
       write_timeout: 700
