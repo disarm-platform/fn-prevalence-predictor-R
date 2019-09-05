@@ -58,12 +58,35 @@ function(params) {
   train_data <- mod_data[!is.na(mod_data$n_trials),]
   pred_data <- mod_data[is.na(mod_data$n_trials),]
   
+  # If there are >250 points, sample 200 of them to estimate 
+  # covariance parameters and then update model with fixed cov pars 
+  if(nrow(train_data)>=250){
+    set.seed(1981)
+    train_data_samp <- train_data[sample(1:nrow(train_data), 200),]
+    
+    spaMM_mod_samp <- fitme(cbind(n_positive, n_neg) ~
+                         cv_predictions +
+                         Matern(1|X+Y),
+                       data=train_data_samp,
+                       family=binomial())
+    
+    spaMM_mod <- fitme(cbind(n_positive, n_neg) ~
+                         cv_predictions +
+                         Matern(1|X+Y),
+                       data=train_data,
+                       fixed = list(nu = spaMM_mod_samp$CorrEst_and_RanFix$corrPars$'1'$nu,
+                                    rho = spaMM_mod_samp$CorrEst_and_RanFix$corrPars$'1'$rho),
+                       family=binomial())
+    
+  }else{
+  
   # Fit model
   spaMM_mod <- fitme(cbind(n_positive, n_neg) ~
                        cv_predictions +
                        Matern(1|X+Y),
                      data=train_data,
                      family=binomial())
+  }
   
   pred_data$cv_predictions <- pred_data$fitted_predictions
   
