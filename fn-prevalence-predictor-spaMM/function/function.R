@@ -5,6 +5,41 @@ library(httr)
 
 get_posterior_metrics <- dget("function/helpers.R")
 
+
+choose_batch <- function(XY, entropy, rho, nu, batch_size) {
+  # XY : candidate locations where the batch is choosen from
+  # entropy: entropy computed at the locations XY
+  # rho, nu: Matern covariance parameters of the model
+  # batch_size: number of observations in the batch
+
+  XY_ix <- seq(entropy) # Index of potential locations
+  ix_max <- which.max(entropy)  # Location with highest entropy
+  XY_ix_lo <- XY_ix[-c(ix_max)] # Locations after removing max entropy
+  ix_batch <- c(ix_max) # Batch of locations to survey next
+  step <- 2
+  while (length(ix_batch) < batch_size) {
+    tradeoff <- c()
+    for (ix_ in XY_ix_lo) {
+      new_batch <- c(ix_batch, ix_)
+      new_XY <- XY[new_batch, ]
+      Kxx <- spaMM::MaternCorr(d = as.matrix(proxy::dist(new_XY)), rho = rho, nu = nu)
+      hlogD <- .5 * determinant(Kxx, logarithm = TRUE)$modulus
+      tradeoff <- c(tradeoff, entropy[ix_] + sqrt(log(step)) * hlogD)
+    }
+    relative_max <- which.max(tradeoff)  # Location with highest entropy
+    ix_batch <- c(ix_batch, XY_ix_lo[relative_max])
+    XY_ix_lo <- XY_ix_lo[-c(relative_max)]
+    step <- step + 1
+  }
+
+  # If we want as output the indices of locations in XY return this
+  #return(ix_batch)
+
+  # If we want as output the locations themselves, return this one
+  return(XY[ix_batch, ])
+}
+
+
 function(params) {
 
   # Read into memory
@@ -97,6 +132,15 @@ function(params) {
                         mod_data,
                         200,
                         params$exceedance_threshold)
+  
+  ### Wrapper for adaptive sampling ###
+  batch_size_param <- 10
+  new_batch <- choose_batch(XY = train_data[, c('X', 'Y')],
+                            entropy = posterior_metrics$entropy,
+                            rho = spaMM_mod$corrPars[[1]]$rho,
+                            nu = spaMM_mod$corrPars[[1]]$nu,
+                            batch_size = batch_size_param)
+  ### That's all :) ###
   
   # Bind to point_data
   for(i in names(posterior_metrics)){
