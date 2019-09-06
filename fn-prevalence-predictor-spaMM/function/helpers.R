@@ -28,8 +28,8 @@ function(spaMM_mod,
     
     # Calc 'exceedance_uncertainty' as normalized around 0.5
     exceedance_uncertainty <- 0.5 - abs(exceedance_probability - 0.5)
-    entropy <- -exceedance_probability * log(exceedance_probability) - 
-                (1-exceedance_probability) * log (1-exceedance_probability)
+    entropy <- -exceedance_probability * log(exceedance_probability, base=2) -
+                (1-exceedance_probability) * log (1-exceedance_probability, base=2)
     entropy[is.na(entropy)] <- 0
     
     # return
