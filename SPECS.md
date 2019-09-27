@@ -14,6 +14,10 @@ A nested JSON object containing:
 
 - `layer_names` - {array of strings} Optional. Default is to run with only latitude and longitude. Names relating to the covariate to use to model and predict. See [here](https://github.com/disarm-platform/fn-covariate-extractor/blob/master/SPECS.md) for options.
 
+- 'batch_size` - {integer} Optional. The number of adaptively sampled locations to select.
+
+- 'uncertainty_fieldname` - {string} Required if 'batch_size' is specified. The field to use to conduct adaptive sampling. To identify optimal locations in order to increase precision of prevalence predictions, choose 'prevalence_bci_width'. To identify optimal locations in order to increase classification accuracy (where classes are defined using exceedance threshold) choose 'exceedance_uncertainty'.
+
 
 ## Constraints
 

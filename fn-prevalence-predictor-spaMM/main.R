@@ -16,7 +16,7 @@ main = function () {
     
     # if any parameters refer to remote files, try to download and 
     # replace parameter with local/temp file reference, return error if any problems
-    retrieve_remote_files(params)
+    #retrieve_remote_files(params)
     
     # run the function with parameters, 
     # return error if any problems, return success if succeeds      
