@@ -16,7 +16,7 @@ A nested JSON object containing:
 
 - `batch_size` - {integer} Optional. The number of adaptively sampled locations to select.
 
-- `uncertainty_fieldname` - {string} Required if 'batch_size' is specified. The field to use to conduct adaptive sampling. To identify optimal locations in order to increase precision of prevalence predictions, choose 'prevalence_bci_width'. To identify optimal locations in order to increase classification accuracy (where classes are defined using exceedance threshold) choose 'exceedance_uncertainty'.
+- `uncertainty_fieldname` - {string} Required if 'batch_size' is specified. The field to use to conduct adaptive sampling. To identify optimal locations in order to increase precision of prevalence predictions, choose 'prevalence_bci_width'. To identify optimal locations in order to increase classification accuracy (where classes are defined using exceedance threshold) choose 'exceedance_uncertainty'. Defaults to `prevalence_bci_width`.
 
 
 ## Constraints
@@ -34,3 +34,4 @@ A nested JSON object containing:
 - `exceedance_probability` - Only exists if `exceedance_threshold` provided
 - `exceedance_uncertainty` - Only exists if `exceedance_threshold` provided
 - `entropy` - Only exists if `exceedance_threshold` provided. Calculated as -p * log(p) - (1-p) * log (1-p) where p is `exceedance_probability`
+- `adaptively_selected` - Boolean corresponding to whether location was selected using the adaptive sampling algorithm. Only exists if `batch_size` specified. 
