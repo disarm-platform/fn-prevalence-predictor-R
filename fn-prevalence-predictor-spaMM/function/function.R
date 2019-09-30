@@ -9,6 +9,7 @@ choose_batch <- dget("function/choose_batch.R")
 
 function(params) {
 
+  set.seed(1981)
   # Read into memory
   point_data <- st_read(as.json(params$point_data), quiet = TRUE)
   
@@ -63,7 +64,7 @@ function(params) {
   # If there are >250 points, sample 200 of them to estimate 
   # covariance parameters and then update model with fixed cov pars 
   if(nrow(train_data)>=250){
-    set.seed(1981)
+
     train_data_samp <- train_data[sample(1:nrow(train_data), 200),]
     
     spaMM_mod_samp <- fitme(cbind(n_positive, n_neg) ~

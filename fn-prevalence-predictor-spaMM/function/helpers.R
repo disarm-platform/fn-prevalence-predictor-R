@@ -4,6 +4,8 @@ function(spaMM_mod,
          n_sims,
          exceedance_threshold){
   
+  set.seed(1981)
+  
   sims <- simulate(spaMM_mod, 
                    seed = 1981,
                    type = "(ranef|response)", 
