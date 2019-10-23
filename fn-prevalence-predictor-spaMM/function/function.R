@@ -5,6 +5,7 @@ library(httr)
 
 get_posterior_metrics <- dget("function/helpers.R")
 choose_batch <- dget("function/choose_batch.R")
+spatial_plus_close_pairs <- dget("function/spatial_plus_close_pairs.R")
 
 
 function(params) {
@@ -64,8 +65,12 @@ function(params) {
   # If there are >250 points, sample 200 of them to estimate 
   # covariance parameters and then update model with fixed cov pars 
   if(nrow(train_data)>=250){
+    
+    # Take spatial plus close pairs sample
+    sample_idx <- spatial_plus_close_pairs(st_as_sf(SpatialPoints(train_data[,c("X", "Y")])),
+                                           n_close = 50, n_spatial = 150)
 
-    train_data_samp <- train_data[sample(1:nrow(train_data), 200),]
+    train_data_samp <- train_data[sample_idx$sample_idx,]
     
     spaMM_mod_samp <- fitme(cbind(n_positive, n_neg) ~
                          cv_predictions +
@@ -74,12 +79,14 @@ function(params) {
                        family=binomial())
     
     spaMM_mod <- fitme(cbind(n_positive, n_neg) ~
-                         cv_predictions +
-                         Matern(1|X+Y),
-                       data=train_data,
-                       fixed = list(nu = spaMM_mod_samp$CorrEst_and_RanFix$corrPars$'1'$nu,
-                                    rho = spaMM_mod_samp$CorrEst_and_RanFix$corrPars$'1'$rho),
-                       family=binomial())
+                           cv_predictions +
+                           Matern(1|X+Y),
+                         data=train_data,
+                         fixed = list(nu = spaMM_mod_samp$CorrEst_and_RanFix$corrPars$'1'$nu,
+                                      rho = spaMM_mod_samp$CorrEst_and_RanFix$corrPars$'1'$rho,
+                                      lambda = spaMM_mod_samp$lambda),
+                         etaFix=list(beta=c("(Intercept)"=as.vector(spaMM_mod_samp$fixef[1]))),
+                         family=binomial())
     
   }else{
   
