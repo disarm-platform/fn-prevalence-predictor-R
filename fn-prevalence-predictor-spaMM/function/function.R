@@ -2,6 +2,7 @@ suppressPackageStartupMessages(library(spaMM))
 suppressPackageStartupMessages(library(sf))
 library(geojsonio)
 library(httr)
+library(sp)
 
 get_posterior_metrics <- dget("function/helpers.R")
 choose_batch <- dget("function/choose_batch.R")

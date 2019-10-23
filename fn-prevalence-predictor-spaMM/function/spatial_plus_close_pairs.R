@@ -1,14 +1,12 @@
 
+library(RANN)
+
 # spatial with close pairs sampling
 function(coords, n_close, n_spatial){
-  
-
   
   candidates <- coords
   candidates$id <- 1:nrow(candidates)
 
-  
-  
   if(!is.null(n_close) | n_close!=0){
     
     if(n_close < 5 | (n_close %% 5 !=0)){
