@@ -3,7 +3,7 @@ provider:
   gateway: https://faas.srv.disarm.io
 functions:
   fn-prevalence-predictor-spamm:
-    lang: dockerfile
+    lang: r-geospatial
     handler: ./fn-prevalence-predictor-spamm
     image: disarm/fn-prevalence-predictor-spamm:0.0.8
     environment:
