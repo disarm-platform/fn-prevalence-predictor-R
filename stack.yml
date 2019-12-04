@@ -6,9 +6,8 @@ functions:
     lang: r-geospatial
     handler: ./fn-prevalence-predictor-spamm
     image: disarm/fn-prevalence-predictor-spamm:0.1.0
-    labels:
-      com.openfaas.scale.zero: true
-      scale_to_zero: true
     environment:
       combine_output: false
       # write_debug: true
+    labels:
+      com.openfaas.scale.zero: true
