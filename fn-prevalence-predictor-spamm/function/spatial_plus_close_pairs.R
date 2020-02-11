@@ -2,17 +2,18 @@
 library(RANN)
 
 # spatial with close pairs sampling
-function(coords, n_close, n_spatial){
-  
+function(coords, n_close=0, n_spatial){
+
   candidates <- coords
   candidates$id <- 1:nrow(candidates)
 
   if(!is.null(n_close) | n_close!=0){
     
-    if(n_close < 5 | (n_close %% 5 !=0)){
+    if(n_close %% 5 !=0){
       stop("n_close must be a multiple of 5")
     }
-    
+
+    #if(n_close>0){
     # Define which is in and out of sample
     nn_close <- nn2(st_coordinates(candidates), st_coordinates(candidates), k=5)
     
@@ -43,7 +44,7 @@ function(coords, n_close, n_spatial){
   }else{
     in_sample <- sample(1:nrow(candidates), 1)
   }
-  
+
   # Loop
   if (n_spatial > 1) {
     for (i in 1:(n_spatial - 1)) {
