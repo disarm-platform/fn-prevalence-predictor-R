@@ -1,5 +1,6 @@
 suppressPackageStartupMessages(library(spaMM))
 suppressPackageStartupMessages(library(sf))
+library(jsonlite)
 library(geojsonio)
 library(httr)
 library(sp)
