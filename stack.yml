@@ -4,10 +4,13 @@ provider:
 functions:
   fn-prevalence-predictor-spamm:
     lang: r-geospatial
-    handler: ./fn-prevalence-predictor-spamm
+    handler: ./function
     image: disarm/fn-prevalence-predictor-spamm:0.1.0
     environment:
       combine_output: false
-      # write_debug: true
+      write_timeout: 600
+      read_timeout: 600
+      exec_timeout: 600
+      write_debug: true
     labels:
       com.openfaas.scale.zero: true
