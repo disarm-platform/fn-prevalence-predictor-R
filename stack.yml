@@ -5,7 +5,7 @@ functions:
   fn-prevalence-predictor-spamm:
     lang: r-geospatial
     handler: ./function
-    image: disarm/fn-prevalence-predictor-spamm:0.1.0
+    image: disarm/fn-prevalence-predictor-spamm:0.2.0   
     environment:
       combine_output: false
       write_timeout: 600
