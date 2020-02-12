@@ -3,4 +3,5 @@ function(params) {
   if (is.null(params[['point_data']])) {
     stop('Missing `point_data` parameter')
   }
+  return(params)
 }
