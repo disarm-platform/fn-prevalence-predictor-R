@@ -32,8 +32,12 @@ function(params) {
     )
   
   if (response$status != 200) {
-    stop('Problem with fn-covariate-extractor response')
+    msg = 'Problem with fn-covariate-extractor response'
+    message(msg)
+    stop(msg)
   }
+
+  message('Got fn-cov-extr response')
 
   # Get contents of the response
   response_content <- content(response)
