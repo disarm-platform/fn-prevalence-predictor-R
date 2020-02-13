@@ -31,7 +31,7 @@ function(params) {
       timeout(90)
     )
   
-  if (response.status != 200) {
+  if (response$status != 200) {
     stop('Problem with fn-covariate-extractor response')
   }
 
