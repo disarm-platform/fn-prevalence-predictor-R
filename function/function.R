@@ -17,7 +17,7 @@ function(params) {
   point_data <- st_read(as.json(params$point_data), quiet = TRUE)
   
   # Send to covariate_extractor
-  if (is.null(layer_names)) {
+  if (is.null(params$layer_names)) {
     stop('layer_names is missing')
   }
   cov_ext_input_data_list <- list(points = geojson_list(point_data),
