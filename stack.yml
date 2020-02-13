@@ -12,3 +12,5 @@ functions:
       read_timeout: 600
       exec_timeout: 600
       write_debug: true
+    labels:
+      com.openfaas.scale.zero: true
