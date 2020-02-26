@@ -17,6 +17,9 @@ function(params) {
   point_data <- st_read(as.json(params$point_data), quiet = TRUE)
   
   # Send to covariate_extractor
+  if (is.null(params$layer_names)) {
+    stop('layer_names is missing')
+  }
   cov_ext_input_data_list <- list(points = geojson_list(point_data),
                                   layer_names = params$layer_names)
   
@@ -28,6 +31,14 @@ function(params) {
       timeout(90)
     )
   
+  if (response$status != 200) {
+    msg = 'Problem with fn-covariate-extractor response'
+    message(msg)
+    stop(msg)
+  }
+
+  message('Got fn-cov-extr response')
+
   # Get contents of the response
   response_content <- content(response)
   
